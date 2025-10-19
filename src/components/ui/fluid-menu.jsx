@@ -78,20 +78,24 @@ export function MenuContainer({
   const totalItems = childrenArray.length
 
   const handleToggle = () => {
-    if (isExpanded) {
-      setIsExpanded(false)
-    } else {
-      setIsExpanded(true)
-    }
+    setIsExpanded((prev) => !prev)
   }
 
+  // Her bir item yüksekliği 48px, ilki zaten container içinde
+  const expandedHeight = 54 + (totalItems - 1) * 42 // px cinsinden
+  const collapsedHeight = 54
+
+
   return (
-    <div className="relative w-[64px]" data-expanded={isExpanded}>
+    <div className="relative max-w-full px-3 py-3 rounded-2xl bg-gray-50 dark:bg-[#0f172aad] shadow-md overflow-hidden transition-all duration-500 ease-in-out" data-expanded={isExpanded}
+      style={{ height: isExpanded ? `${expandedHeight}px` : `${collapsedHeight}px`,}}
+    >
+         {/* w-[64px]     relative flex max-w-full items-center rounded-2xl bg-gray-50 dark:bg-white*   /}
       {/* Container for all items */}
-      <div className="relative">
+      <div className="relative flex items-center justify-center">
         {/* First item - always visible */}
         <div
-          className="relative w-16 h-16 bg-gray-100 dark:bg-gray-800 cursor-pointer rounded-full group will-change-transform z-50"
+          className="relative flex items-center justify-center pt-2 pl-2 w-8 h-8 bg-gray-100 dark:bg-gray-800 cursor-pointer rounded-full group will-change-transform z-50"
           onClick={handleToggle}>
           {childrenArray[0]}
         </div>
@@ -100,9 +104,9 @@ export function MenuContainer({
         {childrenArray.slice(1).map((child, index) => (
           <div
             key={index}
-            className="absolute top-0 left-0 w-16 h-16 bg-gray-100 dark:bg-gray-800 will-change-transform"
+            className="absolute flex items-center justify-center pt-2 pl-2 top-0 left-0 w-8 h-8 bg-gray-100 dark:bg-gray-800 will-change-transform"
             style={{
-              transform: `translateY(${isExpanded ? (index + 1) * 48 : 0}px)`,
+              transform: `translateY(${isExpanded ? (index + 1) * 40 : 0}px)`,
               opacity: isExpanded ? 1 : 0,
               zIndex: 40 - index,
               clipPath: index === childrenArray.length - 2 
