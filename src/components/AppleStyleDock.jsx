@@ -1,11 +1,7 @@
 import {
-  Activity,
-  Component,
   HomeIcon,
   Mail,
-  Package,
-  ScrollText,
-  SunMoon,
+  Files,
 } from 'lucide-react'
 import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/dock'
 
@@ -14,12 +10,7 @@ import { Link } from 'react-router-dom'
 const data = [
   { title: 'Home', icon: <HomeIcon />, href: '/' },
   { title: 'Chat', icon: <Mail />, href: '/chats' },
-  { title: 'Documents', icon: <ScrollText  />, href: '/documents' },
-//   { title: 'Products', icon: <Package />, href: '#' },
-  // { title: 'Components', icon: <Component />, href: '#' },
-  // { title: 'Activity', icon: <Activity />, href: '#' },
-  // { title: 'Change Log', icon: <ScrollText />, href: '#' },
-  // { title: 'Theme', icon: <SunMoon />, href: '#' },
+  { title: 'Documents', icon: <Files  />, href: '/documents' },
 ]
 
 //neutral-800
