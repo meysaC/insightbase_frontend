@@ -1,19 +1,13 @@
-import {
-  HomeIcon,
-  Mail,
-  Files,
-} from 'lucide-react'
+import { HomeIcon, Files, MessageCircle } from 'lucide-react'
 import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/dock'
-
 import { Link } from 'react-router-dom'
 
 const data = [
   { title: 'Home', icon: <HomeIcon />, href: '/' },
-  { title: 'Chat', icon: <Mail />, href: '/chats' },
+  { title: 'Chat', icon: <MessageCircle />, href: '/chats' },
   { title: 'Documents', icon: <Files  />, href: '/documents' },
 ]
 
-//neutral-800
 export function AppleStyleDock() {
   return (
     <div className='absolute bottom-2 left-1/2 max-w-full -translate-x-1/2'>

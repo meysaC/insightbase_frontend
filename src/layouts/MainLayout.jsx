@@ -1,43 +1,49 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { AppleStyleDock } from '@/components/AppleStyleDock'
-import { Navigation } from '@/components/Navigation'
+import { AppleStyleDock } from '@/components/common/AppleStyleDock'
+import { Navigation } from '@/components/common/Navigation'
 import { Toggle } from '@/components/ui/toggle'
 import { SunMoon } from 'lucide-react'
 import { Moon } from 'lucide-react'
 import { Sun } from 'lucide-react'
 import { useTheme } from '@/hooks/useTheme'
 
-//bg-[#0f172a]
 
 const MainLayout = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <div className="relative h-screen bg-gray-150 dark:bg-slate-950 transition-colors duration-800">
+    <div className="flex flex-col h-screen bg-gray-150 dark:bg-slate-950 transition-colors duration-800">
 
-      {/* Theme */}
-      <div className="absolute top-4 right-20 z-50 ">
-        <Toggle variant="outline" onClick={toggleTheme} aria-label="Toggle Theme" className="" >
-          <div className="rounded-full bg-gray-100 dark:bg-gray-800 w-8 h-8 px-[7px] py-[6px]">
-            {
-              theme === "dark" ?  <Moon className="text-gray-700 dark:text-white"/>  :  <Sun className="text-gray-700 dark:text-white"/>
-            }
-            {/* <SunMoon className="text-gray-700 dark:text-white"/> */}
+      {/* === TOP BAR === */}
+      <header className="relative flex items-center justify-end px-6 z-50">
+        {/* Theme toggle */}
+        <Toggle
+          variant="outline"
+          onClick={toggleTheme}
+          aria-label="Toggle Theme"
+          className="mr-0"
+        >
+          <div className="rounded-full w-8 h-8 flex items-center justify-center text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-800 ">
+            {theme === 'dark'
+              ? <Moon />
+              : <Sun />}
           </div>
         </Toggle>
-      </div>
 
-      {/* User/Settings Navigation */}
-      <div className="absolute top-0 right-0 z-50">
+        {/* User Navigation */}
         <Navigation />
-      </div>
+      </header>
 
-      {/* Pages Navigation */}
-      <AppleStyleDock />
+      {/* === MAIN CONTENT === overflow-y-auto */}
+      <main className="flex-1 px-4 pb-[150px]"> 
+        <Outlet />
+      </main>
 
-
-      <Outlet /> 
+      {/* === BOTTOM DOCK === */}
+      <footer className="relative bottom-2 left-1/2 -translate-x-1/2 z-40">
+        <AppleStyleDock />
+      </footer>
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import { MenuItem, MenuContainer } from "@/components/ui/fluid-menu"
-import { Menu as MenuIcon, X, Mail, User, Settings } from "lucide-react" //Home,
+import { Menu as MenuIcon, X, Mail, Settings, UserRound } from "lucide-react" //Home,
 import { Link } from 'react-router-dom'
 
 const data = [
-    {icon: <User size={16} /> , href: '/users'}, //strokeWidth={1.5}
+    {icon: <UserRound size={16} /> , href: '/users'}, //strokeWidth={1.5}
     {icon: <Settings size={16} /> , href: '/settings'},
 ]
 
