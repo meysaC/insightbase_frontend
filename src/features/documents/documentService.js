@@ -1,12 +1,15 @@
 import api from "@/services/api"
 
 // Upload document
-export const uploadDocument = async (file) => {
+export const uploadDocument = async (file, metaData) => {
     const formData = new FormData()
-    formData.append("File", file) // Backend tarafında [FromForm] UploadFileRequest.File eşleşmeli
-    formData.append("UserFileName", file.name) //opsiyonel
+    formData.append("file", file) // Backend tarafında [FromForm] UploadFileRequest.File eşleşmeli
 
-    const res = await api.post("/documents", formData, {
+    Object.entries(metaData).forEach(([key, value]) => {
+        formData.append(key, value)
+    })
+
+    const res = await api.post("/Documents", formData, {
         headers: { "Content-Type": "multipart/form-data" },
     })
     return res.data
@@ -20,10 +23,17 @@ export const fetchDocuments = async (page= 1, pageSize= 20) => {
 
 // Fetch By Id
 export const fetchDocumetById = async (id) => {
-    const res = await api.get(`/documents/${id}`)
+    const res = await api.get(`/Documents/${id}`)
     return res.data
 }
 
+// Update
+export const updateDocumentById = async (id, request) => {
+    const res = await api.put(`/Documents/${id}`, request) // request json body olarak gidiyor
+    return res.data
+}
+
+// Delete 
 export const deleteDocument = async (id) => {
-    await api.delete(`/documents/${id}`)
+    await api.delete(`/Documents/${id}`)
 }
