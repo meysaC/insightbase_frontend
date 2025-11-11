@@ -3,10 +3,11 @@ import {
     uploadDocument,
     fetchDocuments,
     fetchDocumetById,
+    updateDocumentById,
     deleteDocument,
 } from "./documentService"
 
-// Fetch All
+// Fetch All Document
 export const getDocuments = createAsyncThunk(
     "documents/fetchAll",
     async ({page = 1, pageSize = 20}, thunkAPI) => {
@@ -30,19 +31,31 @@ export const getDocument = createAsyncThunk(
     }
 )
 
-// Upload
+// Upload Document
 export const addDocument = createAsyncThunk(
     "documents/upload",
-    async (file, thunkAPI) => {
+    async ({ file, metaData }, thunkAPI) => {
         try {
-            return await uploadDocument(file)
+            return await uploadDocument(file, metaData)
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
         }
     }
 )
 
-// Delete
+// Update Document
+export const updateDocument = createAsyncThunk(
+    "documents/update",
+    async({id, request}, thunkAPI) => {
+        try {
+            return await updateDocumentById(id, request)
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || error.message)
+        }
+    }
+)
+
+// Delete Document
 export const removeDocument = createAsyncThunk(
     "documents/delete",
     async (id, thunkAPI) => {
@@ -105,6 +118,17 @@ const documentSlice = createSlice({
             state.list.push(action.payload)
         })
 
+        // Update
+        .addCase(updateDocument.fulfilled, (state, action) => {
+            const updatedDoc = action.payload
+            const index = state.list.findIndex(doc => doc.id === updatedDoc.id)
+            if ( index !== -1)
+            {
+                state.list[index] = updatedDoc
+            } else {
+                state.list.push(updatedDoc)
+            }
+        })
 
         // Remove
         .addCase(removeDocument.fulfilled, (state, action) => {

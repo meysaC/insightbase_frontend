@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Upload, FileText, Loader2, CheckCircle, X } from 'lucide-react';
 
-const FileUpload = () => {
+const FileUpload = ({ onFileSelect }) => {
       const [uploadedFiles, setUploadedFiles] = useState([]);
       const [notification, setNotification] = useState(null);
       
@@ -14,6 +14,7 @@ const FileUpload = () => {
         const files = Array.from(e.target.files);
         const newFiles = files.map(file => ({
           id: Date.now() + Math.random(),
+          file, //gerçek dosya nesnesi
           name: file.name,
           size: (file.size / 1024).toFixed(2) + ' KB',
           status: 'processing',
@@ -22,7 +23,12 @@ const FileUpload = () => {
         
         setUploadedFiles(prev => [...prev, ...newFiles]);
         
-        // Simüle edilmiş yükleme süreci
+        // parent a haber veriliyor
+        if(onFileSelect) {
+          onFileSelect(files) // UploadDocument e dosya dizisini gönderiyoruz
+        }
+
+        // yükleme süreci
         newFiles.forEach((file, index) => {
           let progress = 0;
           const interval = setInterval(() => {
@@ -66,8 +72,8 @@ const FileUpload = () => {
       </div>
 
       {uploadedFiles.length > 0 && (
-        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10">
-          <h3 className="text-lg font-semibold text-white mb-4">Yüklenen Dosyalar</h3>
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 mt-2">
+          <h3 className="text-lg font-semibold text-white mb-4">Yüklenen Dosya</h3>
           <div className="space-y-3">
             {uploadedFiles.map(file => (
               <div key={file.id} className="bg-white/5 rounded-lg p-4 border border-white/10">
