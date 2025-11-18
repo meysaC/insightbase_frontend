@@ -1,16 +1,23 @@
-import React from 'react'
 import { useState, useEffect } from 'react';
 import { Plus, PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 
 
 const SideBar = () => {
     const [isOpen, setIsOpen] = useState(true);
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
     useEffect(() => {
-        if(window.innerWidth < 768) {
+        if(isMobile) {
             setIsOpen(false);
         }
     }, [])
+
+    useEffect(() => {
+        document.documentElement.style.setProperty(
+            "--sidebar-width",
+            isOpen ? "300px" :  "50px"
+        )
+    }, [isOpen, isMobile])
 
     const conversations = [
         { id: 1, title: "Conversation Conversation 1", timeStamp: "10:30 AM" },
@@ -28,40 +35,36 @@ const SideBar = () => {
         {!isOpen && (
             <button
                 onClick={() => setIsOpen(true)}
-                className='absolute left-3 top-40 bg-gray-900 text-white dark:bg-white dark:text-gray-900 rounded-full p-3 shadow-lg hover:scale-105 transition-transform'>
-                <Plus size={20}/>
+                className='absoulte left-4 top-40 bg-gray-900 text-white dark:bg-white dark:text-gray-900 rounded-full p-3 shadow-lg hover:scale-105 transition-transform duration-1000'>
+                <PanelLeftOpen size={16}/>
             </button>
         )}
 
-
-
-        {/* <div className="h-[70vh] w-[300px] flex flex-col pr-8 ponter-events-none left-0 top-40 z-40">    */}
+        {/* <div className="h-[70vh] w-[300px] flex flex-col pr-8 ponter-events-none left-0 top-40 z-40">   w-[300px]  w-0 */}
         <div
             className={`fixed top-40 left-0 h-[70vh] transition-all duration-300 ease-in-out
-            ${isOpen ? "w-[300px] opacity-100 pr-6 pl-4" : "w-0 opacity-0 pointer-events-none"}
+            ${isOpen ? "opacity-100 pr-6 pl-4" : "opacity-0 pointer-events-none"}
             `}>
 
             <div className="flex flex-col h-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg pointer-events-auto overflow-hidden">
                 
-                <div className="p-4 flex justify-end">
-                </div>
-
-                <div className="p-4">
+                <div className="flex p-4">
                     
-                    <button className='flex items-center justify-center gap-2 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors'>
+                    <button className='flex w-full items-center justify-center gap-2 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors'>
                         <Plus size={16} />
                         <span className="font-medium">Yeni Sohbet</span>
                     </button>
 
                     <button
                         onClick={() => setIsOpen(false)}
-                        className="flex justify-end p-2 rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                        className="flex rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-700 transition p-2 pt-3">
                         <PanelLeftClose size={20} />
                     </button>
 
                 </div>
 
-                <div className="flex-1 overflow-y-auto px-4 pb-4">
+                {/* OTHER CONVERSATIONS */}
+                <div className="flex-1 overflow-y-auto px-4 pb-4 sidebar-scroll">
                     <div className="space-y-3">
                         {conversations.map((conv) => (
                             <div key={conv.id} className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition-colors">

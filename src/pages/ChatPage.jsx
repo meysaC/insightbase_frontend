@@ -1,30 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { Plus, Mic, ArrowUp } from 'lucide-react'
 import Prompt from '@/components/chats/Prompt'
 import Chat from '@/components/chats/Chat'
 import SideBar from '@/components/chats/SideBar'
 import TopBar from '@/components/chats/TopBar'
 
 const ChatPage = () => {
-  // const messages = [
-  //   { id: 1, type: 'user', content: 'Hello, how are you?' },
-  //   { id: 2, type: 'assistant', content: 'I am fine, thank you! How can I assist you today?' },
-  //   { id: 3, type: 'user', content: 'Can you help me with my project?' },
-  //   { id: 4, type: 'assistant', content: 'Of course! Please provide more details about your project.' },
-  // ]
-
-  // const [sidebarOpen, setSidebarOpen] = useState(true)
-
-  // // Küçük ekranda otomatik kapalı başlasın
-  // useEffect(() => {
-  //   if (window.innerWidth < 768) {
-  //     setSidebarOpen(false)
-  //   }
-  // }, [])
-  
   return (
-      // w-screen
-    <div className="h-full grid grid-cols-[300px_1fr] pr-10"> 
+      // 300px_1fr
+    <div className="h-full grid grid-cols-[var(--sidebar-width)_1fr] transition-all duration-300 pr-10"> 
 
       <div className="overflow-hidden">
         <SideBar />
@@ -38,7 +20,7 @@ const ChatPage = () => {
 
         <div className="flex flex-col flex-1 overflow-hidden">
 
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto sidebar-scroll">
             <Chat />
           </div>
 
@@ -49,6 +31,10 @@ const ChatPage = () => {
 
       </div>
     </div>
+  )
+}
+
+export default ChatPage
 
 
     // <div className='grid grid-cols-5 grid-rows-5'>
@@ -68,10 +54,6 @@ const ChatPage = () => {
     // </div>
 
 
-  )
-}
-
-export default ChatPage
 
     
     // <div className="h-screen bg-gray-50 flex rounded-2xlg">
