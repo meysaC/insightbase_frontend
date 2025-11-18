@@ -4,6 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.sidebar-scroll::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: #bbb;
+}
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
 @theme inline {
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -75,6 +92,8 @@
   --color-sidebar-border: var(--sidebar-border);
 
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius: var(----radius);
 }
 
 :root {

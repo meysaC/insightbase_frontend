@@ -35,13 +35,13 @@ const MainLayout = () => {
         <Navigation />
       </header>
 
-      {/* === MAIN CONTENT === overflow-y-auto */}
-      <main className="flex-1 px-4 pb-[150px]"> 
+      {/* === MAIN CONTENT === */}
+      <main className="flex-1 px-4 pb-[120px] overflow-hidden"> 
         <Outlet />
       </main>
 
-      {/* === BOTTOM DOCK === */}
-      <footer className="relative bottom-2 left-1/2 -translate-x-1/2 z-40">
+      {/* === BOTTOM DOCK === bottom-2*/}
+      <footer className="relative bottom-1 left-1/2 -translate-x-1/2 z-40">
         <AppleStyleDock />
       </footer>
     </div>
