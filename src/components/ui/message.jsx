@@ -14,8 +14,9 @@ export const Message = ({
   <div
     className={cn(
       'group flex w-full items-end justify-end gap-2 py-4',
-      from === 'user' ? 'is-user' : 'is-assistant flex-row-reverse justify-end',
-      '[&>div]:max-w-[80%]',
+      from === 'user' 
+        ? 'is-user [&>div]:max-w-[70%]' 
+        : 'is-assistant flex-row-reverse justify-end [&>div]:max-w-[100%]',
       className
     )}
     {...props} />

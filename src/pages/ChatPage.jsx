@@ -6,7 +6,7 @@ import TopBar from '@/components/chats/TopBar'
 const ChatPage = () => {
   return (
       // 300px_1fr
-    <div className="h-full grid grid-cols-[var(--sidebar-width)_1fr] transition-all duration-300 pr-10"> 
+    <div className="h-full grid grid-cols-[var(--sidebar-width)_1fr] transition-all duration-300"> 
 
       <div className="overflow-hidden">
         <SideBar />
@@ -27,6 +27,7 @@ const ChatPage = () => {
           <div className="shrink-0">
             <Prompt />
           </div>
+
         </div>
 
       </div>
