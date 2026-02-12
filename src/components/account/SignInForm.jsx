@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+
+import { Eye, EyeOff, Loader } from 'lucide-react';
 
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { login, loading, error } = useAuth();
 
     const handleSignIn = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
+
+    login(data);
+    
     console.log("Sign In submitted:", data);
     alert(`Sign In Submitted! Check the browser console for form data.`);
   };
@@ -21,10 +27,6 @@ export const SignInForm = () => {
   
   const handleResetPassword = () => {
     alert("Reset Password clicked");
-  }
-
-  const handleCreateAccount = () => {
-    alert("Create Account clicked");
   }
 
   return (
@@ -74,9 +76,9 @@ export const SignInForm = () => {
               className="hover:underline text-violet-400 transition-colors">Şifreyi sıfırla</a>
           </div>
 
-          <button type="submit"
+          <button disabled={loading} type="submit"
             className="animate-element animate-delay-600 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-            Giriş Yap
+            {loading ? <Loader /> : "Giriş Yap"}
           </button>
         </form>
 
