@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-
+import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Loader } from 'lucide-react';
 
 
 export const SignInForm = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const { login, loading, error } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { login, loading, error } = useAuth();
 
-    const handleSignIn = (event) => {
+  const handleSignIn = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
-    login(data);
-    
-    console.log("Sign In submitted:", data);
-    alert(`Sign In Submitted! Check the browser console for form data.`);
+    try {
+     login(data);
+      // .unwrap().then(() => {
+      //   navigate('/');
+    } catch (error) {console.error("Login failed:", error);}
   };
 
   const handleGoogleSignIn = () => {

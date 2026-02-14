@@ -6,4 +6,5 @@ export const authService = {
   login: (data) => api.post("auth/login", data),
   logout: () => api.post("auth/logout"),
   me: () => api.get("auth/me"),
+  refreshToken: () => api.post("auth/refresh-token"),
 }

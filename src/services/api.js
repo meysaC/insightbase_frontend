@@ -6,12 +6,12 @@ const api = axios.create({
 });
 
 // Global error handling, response -> token expired yakalama
-api.interceptors.response.use(
-  (res) => res,
-   (err) => {
-    console.error("API Error:", err.response?.data || err.message);
-    return Promise.reject(err.response?.data || err.message);
-  }
-);
+// api.interceptors.response.use(
+//   (res) => res,
+//    (err) => {
+//     console.error("API Error:", err.response?.data || err.message);
+//     return Promise.reject(err.response?.data || err.message);
+//   }
+// );
 
 export default api;

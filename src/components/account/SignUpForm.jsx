@@ -16,8 +16,9 @@ export const SignUpForm = () => {
     const formdata = new FormData(e.currentTarget);
     const data = Object.fromEntries(formdata.entries());
 
-    register(data);
-    // navigate('/');
+    register(data).unwrap().then(() => {
+      navigate('/');
+    });
   }
   
   return (

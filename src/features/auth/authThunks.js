@@ -6,8 +6,6 @@ export const registerUser = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             const res = await authService.register(data);
-
-            thunkAPI.dispatch(fetchMe());
             
             return { token: res.data.token };
         } catch (error) {
@@ -23,6 +21,7 @@ export const fetchMe = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const res = await authService.me();
+            
             return {
                 token: res.data.token,
                 user: res.data.user,
@@ -40,9 +39,9 @@ export const loginUser = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             const res = await authService.login(data);
+            
             return {
                 token: res.data.token,
-                user: res.data.user,
             };
         } catch (error) {
             return thunkAPI.rejectWithValue(
@@ -65,36 +64,21 @@ export const logoutUser = createAsyncThunk(
     }
 )
 
-// // backend set-cookie ile refresh token gönderiyor, front sadece access token alıyor/ilgileniyor
-// export const registerUser = (data) => async (dispatch) => {
-//     try {
-//         dispatch(authStart());
-
-//         const res = await authService.register(data);
-
-//         dispatch(
-//             authSuccess({
-//                 token: res.data.token,
-//                 user: res.data.user,
-//             })
-//         )
-//     } catch (error) {
-//         dispatch(authFail(error?.message || "Kayıt işlemi başarısız!"));   
-//     }
-// }
-
-// export const fetchMe = () => async (dispatch) => {
-//     try {
-//         dispatch(authStart());
-//         const res = await authService.me();
-
-//         dispatch(
-//             authSuccess({
-//                 token: res.data.token,
-//                 user: res.data.user,
-//             })
-//         )
-//     } catch (error) {
-//         dispatch(authFail(error?.errors || "Kullanıcı bilgileri alınamadı!"));   
-//     }
-// }
+export const boostrapAuth = createAsyncThunk(
+    "auth/bootstrap",
+    async (_, thunkAPI) => {
+        try {
+            const refreshResponse = await authService.refreshToken();
+            const meResponse = await authService.me();
+            
+            return {
+                token: refreshResponse.data.token,
+                user: meResponse.data.user,
+            };
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error?.message || "Oturum yenilenemedi!"
+            );
+        }
+    }
+)

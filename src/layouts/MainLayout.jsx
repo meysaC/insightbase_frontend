@@ -7,7 +7,10 @@ import { Toggle } from '@/components/ui/toggle'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '@/hooks/useTheme'
 import { AuthModal } from '@/components/account/AuthModal'
-import Logo from "../assets/InsightBase_Logo2.png"
+// import Logo from "../assets/InsightBase_Logo2.png"
+import Logo_Dark from "../assets/InsightBase_Logo_Dark.png"
+import Logo_Light from "../assets/InsightBase_Logo_Light.png"
+// import Logo from "../assets/InsightBase_Logo3.jpeg"
 
 
 const MainLayout = () => {
@@ -22,7 +25,9 @@ const MainLayout = () => {
         
         {/** Logo Section */}
         <div className="absolute left-6 top-5 flex items-center gap-2">
-          <img src={Logo} alt="Logo" className="h-8" />
+           { theme === 'dark'
+            ? <img src={Logo_Dark} alt="Logo" className="h-12" />
+            : <img src={Logo_Light} alt="Logo" className="h-14" /> }
       </div>
 
       <div className="relative flex items-center justify-end px-6">

@@ -4,7 +4,8 @@ import { Outlet } from 'react-router-dom'
 import { useTheme } from '@/hooks/useTheme'
 import { Toggle } from '@/components/ui/toggle'
 import { Moon, Sun } from 'lucide-react'
-import Logo from "../assets/InsightBase_Logo2.png"
+import Logo_Dark from "../assets/InsightBase_Logo_Dark.png"
+import Logo_Light from "../assets/InsightBase_Logo_Light.png"
 
 const AuthLayout = () => {
     const { theme, toggleTheme } = useTheme()
@@ -15,7 +16,9 @@ const AuthLayout = () => {
     <header className="relative flex items-center justify-end px-6 z-50">
       {/** Logo Section */}
       <div className="absolute left-6 top-5 flex items-center gap-2">
-        <img src={Logo} alt="Logo" className="h-8" />
+        { theme === 'dark'
+         ? <img src={Logo_Dark} alt="Logo" className="h-12" />
+         : <img src={Logo_Light} alt="Logo" className="h-14" /> }
       </div>
       
       {/* Theme toggle */}

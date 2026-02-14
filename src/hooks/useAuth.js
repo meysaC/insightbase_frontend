@@ -9,14 +9,13 @@ export const useAuth = () => {
 
   return {
     ...auth,
-    // user: auth.user,
-    // token: auth.token,
-    // isAuthenticated: auth.isAuthenticated,
-    // loading: auth.loading,
-    // error: auth.error,
-
     register: (data) => dispatch(registerUser(data)),
-    login: (data) => dispatch(loginUser(data)),
+    login: async (data) => {
+      const result = await dispatch(loginUser(data)).unwrap();
+      if (result) {
+        dispatch(fetchMe());
+      }
+    },
     me: () => dispatch(fetchMe()),
     logout: () => dispatch(logoutUser()),
   }

@@ -26,7 +26,7 @@ const authSlice = createSlice({
           .addCase("auth/register/fulfilled", (state, action) => {
               state.loading = false;
               state.token = action.payload.token;
-              state.user = action.payload.user;
+            //   state.user = action.payload.user;
           })
           .addCase("auth/register/rejected", (state, action) => {
               state.loading = false;
@@ -41,7 +41,7 @@ const authSlice = createSlice({
           .addCase("auth/login/fulfilled", (state, action) => {
               state.loading = false;
               state.token = action.payload.token;
-              state.user = action.payload.user;
+            //   state.user = action.payload.user;
           })
           .addCase("auth/login/rejected", (state, action) => {
               state.loading = false;
@@ -76,6 +76,22 @@ const authSlice = createSlice({
               state.loading = false;
               state.error = action.payload;
           });
+
+        // bootstrap auth
+        //   .addCase("auth/bootstrap/pending", (state) => {
+        //       state.loading = true;
+        //       state.error = null;
+        //   })
+        //   .addCase("auth/bootstrap/fulfilled", (state, action) => {
+        //       state.loading = false;
+        //       state.token = action.payload.token;
+        //       state.user = action.payload.user;
+        //   })
+        //   .addCase("auth/bootstrap/rejected", (state, action) => {
+        //       state.loading = false;
+        //       state.error = action.payload;
+        //   });
+
     }
 })
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import { SparklesCore } from "@/components/ui/sparkles"
-import Logo from "../assets/InsightBase_Logo2.png"
 
 const HomePage = () => {
   return (
