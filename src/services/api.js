@@ -2,24 +2,22 @@ import axios from "axios"
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
-    withCredentials: false, //cookie authentication varsa true
+    withCredentials: true, // refresh cookie authentication varsa true
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
-
-// // Token ekleme 
-// api.interceptors.request.use((config) => {
-//   const token = localStorage.getItem("token");
-//   if (token) config.headers.Authorization = `Bearer ${token}`;
-//   return config;
-// });
-
-// Global error handling
+// Global error handling, response -> token expired yakalama
 api.interceptors.response.use(
   (res) => res,
-  (err) => {
-    console.error("API Error:", err.response?.data || err.message);
-    // throw err;
-    return Promise.reject(err.response?.data || err.message);
+   (err) => {
+    const normalizedError = {
+        message: err.response?.data?.message || err.message || "Bir hata oluştu!",
+        status: err.response?.status,
+        data: err.response?.data || null,
+    };
+    return Promise.reject(normalizedError);
   }
 );
 

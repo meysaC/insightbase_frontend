@@ -56,8 +56,6 @@ const UploadDocument = () => {
             uploadData.append("LegalArea", formData.legalArea)
             uploadData.append("IsPublic", formData.isPublic.toString()) // form data string olarak yolluyor, c# bool bekliyorsa doğru parse eder ama emin olmak için 
 
-            console.log("Gönderilen FormData:", [...uploadData.entries()])
-
             await dispatch(addDocument({
                 file: selectedFiles[0],
                 metaData: {
@@ -95,35 +93,31 @@ const UploadDocument = () => {
             <FileUpload  onFileSelect={handleFileSelect} />
 
             <form onSubmit={handleSubmit} className='space-y-4' >
-
-            <div>
-                <Label htmlFor="userFileName" className="userFilename pb-2" >Dosya Adı</Label>
-                <Input 
-                    id="userFileName"
-                    name="userFileName"
-                    value={formData.userFileName}
-                    onChange={handleChange}
-                    placeholder="Dosya adı giriniz."
-                />
-            </div>
-
-
-            <div className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    id="isPublic"
-                    name="isPublic"
-                    checked={formData.isPublic}
-                    onChange={handleChange}
+                <div>
+                    <Label htmlFor="userFileName" className="userFilename pb-2" >Dosya Adı</Label>
+                    <Input 
+                        id="userFileName"
+                        name="userFileName"
+                        value={formData.userFileName}
+                        onChange={handleChange}
+                        placeholder="Dosya adı giriniz."
                     />
-                <Label htmlFor="isPublic">Herkese Açık</Label>
-            </div>
+                </div>
 
+                <div className="flex items-center gap-2">
+                    <input
+                        type="checkbox"
+                        id="isPublic"
+                        name="isPublic"
+                        checked={formData.isPublic}
+                        onChange={handleChange}
+                        />
+                    <Label htmlFor="isPublic">Herkese Açık</Label>
+                </div>
 
-            <DialogFooter>
-                <Button type="submit">Yükle</Button>
-            </DialogFooter>
-
+                <DialogFooter>
+                    <Button type="submit">Yükle</Button>
+                </DialogFooter>
             </form>
 
         </DialogContent>

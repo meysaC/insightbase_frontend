@@ -1,19 +1,29 @@
 import React from 'react'
 import { MenuItem, MenuContainer } from "@/components/ui/fluid-menu"
-import { Menu as MenuIcon, X, Mail, Settings, UserRound } from "lucide-react" //Home,
-import { Link } from 'react-router-dom'
-
-const data = [
-    {icon: <UserRound size={16} /> , href: '/users'}, //strokeWidth={1.5}
-    {icon: <Settings size={16} /> , href: '/settings'},
-]
+import { Menu as MenuIcon, X, Mail, Settings, UserRound, LogOut } from "lucide-react" //Home,
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '@/hooks/useAuth'
 
 export function Navigation() {
+  const { logout } = useAuth(); //isAuthenticated, 
+  const navigate = useNavigate();
+  
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await logout();
+    navigate('/');
+  }
+
+  const data = 
+   [
+      {icon: <UserRound size={16} /> , href: '/users'},
+      {icon: <Settings size={16} /> , href: '/settings'},
+      {icon: <LogOut size={16} /> , href: '/logout', onClick: handleLogout},
+  ]
   return (
-    <div className="flex flex-col items-center gap-8 p-4">
-      
+    <div className="flex flex-col items-center">
       <div className="relative">
-        <div className="absolute inset-0 -z-10 rounded-full" /> {/* bg-gradient-to-b from-gray-900/10 to-transparent dark:from-gray-100/10 blur-3xl  */}
+        <div className="absolute inset-0 -z-10 rounded-full" />
         <MenuContainer>
           <MenuItem 
             icon={
@@ -27,12 +37,21 @@ export function Navigation() {
               </div>
             } 
           />
-            { data.map((item, idx) => (
-                <Link to={item.href} key={idx} >
-                    <MenuItem icon={item.icon} />
+
+          {data.map((item, idx) => (
+            <React.Fragment key={idx}>
+              {item.onClick ? (
+                // Logout için custom handler
+                  <MenuItem icon={item.icon}  onClick={handleLogout}/>
+              ) : (
+                // Normal link
+                <Link to={item.href}>
+                  <MenuItem icon={item.icon} />
                 </Link>
-            ))
-            }
+              )}
+            </React.Fragment>
+          ))}
+
         </MenuContainer>
       </div>
     </div>
