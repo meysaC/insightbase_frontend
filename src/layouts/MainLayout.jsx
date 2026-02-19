@@ -6,15 +6,15 @@ import { Navigation } from '@/components/common/Navigation'
 import { Toggle } from '@/components/ui/toggle'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '@/hooks/useTheme'
+import { useAuth } from '@/hooks/useAuth'
 import { AuthModal } from '@/components/account/AuthModal'
-// import Logo from "../assets/InsightBase_Logo2.png"
 import Logo_Dark from "../assets/InsightBase_Logo_Dark.png"
 import Logo_Light from "../assets/InsightBase_Logo_Light.png"
-// import Logo from "../assets/InsightBase_Logo3.jpeg"
 
 
 const MainLayout = () => {
   const { theme, toggleTheme } = useTheme()
+  const { user, isAuthenticated } = useAuth()
   const [authOpen, setAuthOpen] = useState(false)
 
   return (
@@ -28,34 +28,51 @@ const MainLayout = () => {
            { theme === 'dark'
             ? <img src={Logo_Dark} alt="Logo" className="h-12" />
             : <img src={Logo_Light} alt="Logo" className="h-14" /> }
-      </div>
+        </div>
 
-      <div className="relative flex items-center justify-end px-6">
-        {/** Login Button */}
-        <button className='mr-2  flex w-fit gap-4 rounded-2xl bg-gray-50 px-4 dark:bg-[#0f172aad] py-4 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-300'
-          onClick={() => setAuthOpen(true)}
-        >
-          Giriş Yap
-        </button>
+        <div className="relative flex items-center justify-end px-6 gap-2">
+            {isAuthenticated ? (
+              // Kullanıcı giriş yaptıysa
+              <div className="flex items-center">
+                {/* User Info */}
+                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-gray-50 dark:bg-[#0f172aad]">
+                  <div className="w-8 h-8 rounded-full bg-violet-500 flex items-center justify-center text-white font-semibold">
+                    {user?.email?.[0]?.toUpperCase() || 'U'}
+                  </div>
+                  <span className="text-sm font-medium hidden md:block">
+                    {user?.userName || user?.email}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <>
+              {/** Login Button */}
+              <button className='mr-2  flex w-fit gap-4 rounded-2xl bg-gray-50 px-4 dark:bg-[#0f172aad] py-4 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-300'
+                onClick={() => setAuthOpen(true)}>
+                Giriş Yap
+              </button>
+              </>
+            )}
 
-        {/* Theme toggle */}
-        <Toggle
-          variant="outline"
-          onClick={toggleTheme}
-          aria-label="Toggle Theme"
-          className="mr-0"
-        >
-          <div className="rounded-full w-8 h-8 flex items-center justify-center text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-800 ">
-            {theme === 'dark'
-              ? <Moon />
-              : <Sun />}
-          </div>
-        </Toggle>
 
-        {/* User Navigation */}
-        <Navigation />
+          {/* Theme toggle */}
+          <Toggle
+            variant="outline"
+            onClick={toggleTheme}
+            aria-label="Toggle Theme"
+            className="mr-0"
+          >
+            <div className="rounded-full w-8 h-8 flex items-center justify-center text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-800 ">
+              {theme === 'dark'
+                ? <Moon />
+                : <Sun />}
+            </div>
+          </Toggle>
 
-      </div>
+          {/* User Navigation */}
+          <Navigation />
+        </div>
+
       </header>
 
       {/* === MAIN CONTENT === */}

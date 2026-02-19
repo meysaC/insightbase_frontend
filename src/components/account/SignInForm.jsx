@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, Loader } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 
-export const SignInForm = () => {
+export const SignInForm = ({ onSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const { login, isLoading, error, isAuthenticated, clearError } = useAuth();
   const navigate = useNavigate();
-  const { login, loading, error } = useAuth();
 
-  const handleSignIn = (event) => {
+  useEffect(() => {
+    if(isAuthenticated) {
+      onSuccess?.();
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate, onSuccess]);
+
+
+  const handleSignIn = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
     try {
-     login(data);
-      // .unwrap().then(() => {
-      //   navigate('/');
+     await login(data);
     } catch (error) {console.error("Login failed:", error);}
   };
 
@@ -36,12 +42,23 @@ export const SignInForm = () => {
        <h1 className="animate-element animate-delay-100 text-4xl md:text-2xl font-semibold leading-tight">Giriş Yap</h1>
 
         <form className="space-y-5" onSubmit={handleSignIn}>
+
+          {error && (
+            <div className="animate-element animate-delay-200 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-200 p-4 rounded-lg flex items-center justify-between">
+              {error}
+              <button type='button' onClick={clearError}
+                className="text-red-800 dark:text-red-200 hover:text-red-600 dark:hover:text-red-400 font-bold text-xl leading-none"
+              >×</button>
+            </div>
+          )}
+
           <div className="animate-element animate-delay-300">
             <label className="text-sm font-medium text-muted-foreground">Email</label>
             <div className="rounded-2xl border border-border bg-foreground/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10">
               <input
                 name="email"
                 type="email"
+                required
                 placeholder="Email adresinizi girin"
                 className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" />
             </div>
@@ -54,6 +71,7 @@ export const SignInForm = () => {
                     <input
                     name="password"
                     type={showPassword ? 'text' : 'password'}
+                    required
                     placeholder="Şifre"
                     className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none" />
                 </div>
@@ -78,9 +96,15 @@ export const SignInForm = () => {
               className="hover:underline text-violet-400 transition-colors">Şifreyi sıfırla</a>
           </div>
 
-          <button disabled={loading} type="submit"
+          <button disabled={isLoading} type="submit"
             className="animate-element animate-delay-600 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-            {loading ? <Loader /> : "Giriş Yap"}
+            {isLoading ? (
+             <> 
+                <Loader2 className="flex items-center justify-between w-5 h-5 animate-spin" /> 
+              </> 
+            ) : (
+              "Giriş Yap"
+              )}
           </button>
         </form>
 
@@ -116,9 +140,6 @@ export const SignInForm = () => {
           <Link to="/signup" className="text-violet-400 hover:underline transition-colors">
             Hesap Oluştur
           </Link>
-          {/* <a href="#"
-           onClick={(e) => { e.preventDefault(); onCreateAccount?.(); }}
-          className="text-violet-400 hover:underline transition-colors">Hesap Oluştur</a> */}
         </p>
     </div>
   )

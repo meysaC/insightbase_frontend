@@ -1,16 +1,18 @@
-import { authService } from "./authService";
+import { authService, setAccessToken, clearAccessToken } from "./authService";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const registerUser = createAsyncThunk(
     "auth/register",
-    async (data, thunkAPI) => {
+    async (data, {rejectWithValue}) => {
         try {
             const res = await authService.register(data);
-            
-            return { token: res.data.token };
+            setAccessToken(res.data.token);
+
+            const meRes = await authService.me();
+            return { user: meRes.data };
         } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error?.message || "Kayıt işlemi başarısız!"
+            return rejectWithValue(
+                error?.response?.data?.message || "Kayıt işlemi başarısız!"
             );
         }
     }
@@ -18,17 +20,13 @@ export const registerUser = createAsyncThunk(
 
 export const fetchMe = createAsyncThunk(
     "auth/me",
-    async (_, thunkAPI) => {
+    async (_, {rejectWithValue}) => {
         try {
             const res = await authService.me();
-            
-            return {
-                token: res.data.token,
-                user: res.data.user,
-            };
+            return { user: res.data };
         } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error?.errors || "Kullanıcı bilgileri alınamadı!"
+            return rejectWithValue(
+                error?.response?.data?.errors || "Kullanıcı bilgileri alınamadı!"
             );
         }
     }
@@ -36,16 +34,16 @@ export const fetchMe = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     "auth/login",
-    async (data, thunkAPI) => {
+    async (data, {rejectWithValue}) => {
         try {
-            const res = await authService.login(data);
+            const loginRes = await authService.login(data);
+            setAccessToken(loginRes.data.token);
             
-            return {
-                token: res.data.token,
-            };
+            const meRes = await authService.me();
+            return { user: meRes.data };
         } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error?.message || "Giriş işlemi başarısız!"
+            return rejectWithValue(
+                error?.response?.data?.message || "Email veya şifre hatalı!"
             );
         }
     }
@@ -53,32 +51,38 @@ export const loginUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
     "auth/logout",
-    async (_, thunkAPI) => {
+    async (_, { rejectWithValue }) => {
         try {
             await authService.logout();
+            clearAccessToken();
+            return null; // Redux Toolkit otomatik olarak fulfilled action'ı oluşturur
         } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error?.message || "Çıkış işlemi başarısız!"
+            // logout hata verse bile access token'ı temizle
+            clearAccessToken();
+            return rejectWithValue(
+                error?.response?.data?.message || "Çıkış işlemi başarısız!"
             );
         }
     }
 )
 
-export const boostrapAuth = createAsyncThunk(
+// Oturum açılışında kullanıcı durumunu kontrol etme
+export const bootstrapAuth = createAsyncThunk(
     "auth/bootstrap",
-    async (_, thunkAPI) => {
+    async (_, {rejectWithValue}) => {
         try {
+            // 1. refresh token ile yeni acces token al
             const refreshResponse = await authService.refreshToken();
-            const meResponse = await authService.me();
+            const newAccessToken = refreshResponse.data.token;
             
-            return {
-                token: refreshResponse.data.token,
-                user: meResponse.data.user,
-            };
+            setAccessToken(newAccessToken);
+
+            // 2. kullanıcı bilgilerini çek
+            const meResponse = await authService.me();
+            return { user: meResponse.data };
         } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error?.message || "Oturum yenilenemedi!"
-            );
+            clearAccessToken();
+            return rejectWithValue(null);
         }
     }
 )

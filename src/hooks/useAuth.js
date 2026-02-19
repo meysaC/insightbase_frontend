@@ -1,22 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, loginUser, fetchMe, logoutUser } from "@/features/auth/authThunks"
+import { clearError } from "@/features/auth/authSlice";
 
 
 // ui böylece redux bilmez
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const { user, status, error } = useSelector((state) => state.auth);
 
   return {
-    ...auth,
+    // State
+    user,
+    isLoading: status === "loading",
+    isAuthenticated: !!user,
+    error,
+
+    // Actions
     register: (data) => dispatch(registerUser(data)),
-    login: async (data) => {
-      const result = await dispatch(loginUser(data)).unwrap();
-      if (result) {
-        dispatch(fetchMe());
-      }
-    },
+    login: (data) => { dispatch(loginUser(data)); },
     me: () => dispatch(fetchMe()),
     logout: () => dispatch(logoutUser()),
+    clearError: () => dispatch(clearError()),
   }
 };
