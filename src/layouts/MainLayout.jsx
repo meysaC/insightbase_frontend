@@ -21,7 +21,7 @@ const MainLayout = () => {
     <div className="flex flex-col h-screen bg-gray-150 dark:bg-slate-950 transition-colors duration-800">
 
       {/* === TOP BAR ===  justify-end px-6 z-50*/}
-      <header className=""> 
+      <header> 
         
         {/** Logo Section */}
         <div className="absolute left-6 top-5 flex items-center gap-2">
@@ -30,7 +30,7 @@ const MainLayout = () => {
             : <img src={Logo_Light} alt="Logo" className="h-14" /> }
         </div>
 
-        <div className="relative flex items-center justify-end px-6 gap-2">
+        <div className="relative flex items-center justify-end p-4 gap-2">
             {isAuthenticated ? (
               // Kullanıcı giriş yaptıysa
               <div className="flex items-center">

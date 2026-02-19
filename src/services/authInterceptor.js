@@ -30,14 +30,10 @@ export const setupAuthInterceptor = () => {
     const token = getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(`📤 Request to ${config.url} with token`);
-    } else {
-      console.log(`📤 Request to ${config.url} without token`);
     }
     return config;
   },
   (error) => {
-    console.log("🚨 Request error:", error);
     return Promise.reject(error);
   }
 );

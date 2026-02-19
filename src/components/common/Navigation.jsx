@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 
 export function Navigation() {
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth(); //isAuthenticated, 
   const navigate = useNavigate();
   
   const handleLogout = async (e) => {
@@ -14,20 +14,16 @@ export function Navigation() {
     navigate('/');
   }
 
-  const data = isAuthenticated
-  ? [
-      {icon: <UserRound size={16} /> , href: '/users'}, //strokeWidth={1.5}
+  const data = 
+   [
+      {icon: <UserRound size={16} /> , href: '/users'},
       {icon: <Settings size={16} /> , href: '/settings'},
       {icon: <LogOut size={16} /> , href: '/logout', onClick: handleLogout},
   ]
-  : [
-    {icon: <Settings size={16} /> , href: '/settings'}
-  ]
   return (
-    <div className="flex flex-col items-center gap-8 p-4">
-      
+    <div className="flex flex-col items-center">
       <div className="relative">
-        <div className="absolute inset-0 -z-10 rounded-full" /> {/* bg-gradient-to-b from-gray-900/10 to-transparent dark:from-gray-100/10 blur-3xl  */}
+        <div className="absolute inset-0 -z-10 rounded-full" />
         <MenuContainer>
           <MenuItem 
             icon={
@@ -41,20 +37,12 @@ export function Navigation() {
               </div>
             } 
           />
-            {/* { data.map((item, idx) => (
-                <Link to={item.href} key={idx} >
-                    <MenuItem icon={item.icon} />
-                </Link>
-            ))
-            } */}
 
           {data.map((item, idx) => (
             <React.Fragment key={idx}>
               {item.onClick ? (
                 // Logout için custom handler
-                <button onClick={item.onClick} className="appearance-none">
-                  <MenuItem icon={item.icon} />
-                </button>
+                  <MenuItem icon={item.icon}  onClick={handleLogout}/>
               ) : (
                 // Normal link
                 <Link to={item.href}>

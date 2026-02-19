@@ -76,12 +76,18 @@ const authSlice = createSlice({
       })
 
       // ========== LOGOUT ==========
-      .addCase(logoutUser.fulfilled, () => ({
-        ...initialState,
-      }))
-      .addCase(logoutUser.rejected, () => ({
-        ...initialState,
-      }));          
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.status = "succeeded";
+        state.error = null;
+        state.isInitialized = true; // logout olsa bile app hazır kalır
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        state.user = null;
+        state.status = "failed";
+        state.error = null;
+        state.isInitialized = true;
+      });          
 
 
 

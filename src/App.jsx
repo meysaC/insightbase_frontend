@@ -10,7 +10,7 @@ const { isInitialized } = useSelector((state) => state.auth); //, user, error
 
   useEffect(() => {
     dispatch(bootstrapAuth()); //fetchMe
-  }, [])
+  }, [dispatch])
 
   //   // ✅ Debug: Bootstrap sonuçlarını logla
   // useEffect(() => {

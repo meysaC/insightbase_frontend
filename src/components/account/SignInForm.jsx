@@ -28,14 +28,14 @@ export const SignInForm = ({ onSuccess }) => {
     } catch (error) {console.error("Login failed:", error);}
   };
 
-  const handleGoogleSignIn = () => {
-    console.log("Continue with Google clicked");
-    alert("Continue with Google clicked");
-  };
+  // const handleGoogleSignIn = () => {
+  //   console.log("Continue with Google clicked");
+  //   alert("Continue with Google clicked");
+  // };
   
-  const handleResetPassword = () => {
-    alert("Reset Password clicked");
-  }
+  // const handleResetPassword = () => {
+  //   alert("Reset Password clicked");
+  // }
 
   return (
     <div className="flex flex-col gap-6">
@@ -91,8 +91,8 @@ export const SignInForm = ({ onSuccess }) => {
               <input type="checkbox" name="rememberMe" className="custom-checkbox" />
               <span className="text-foreground/90">Beni hatırla</span>
             </label>
+            {/*   onClick={(e) => { e.preventDefault(); onResetPassword?.(); }} */}
             <a href="#"
-               onClick={(e) => { e.preventDefault(); onResetPassword?.(); }}
               className="hover:underline text-violet-400 transition-colors">Şifreyi sıfırla</a>
           </div>
 
