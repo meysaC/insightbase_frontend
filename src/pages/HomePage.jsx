@@ -1,10 +1,10 @@
 import React from 'react'
 import { SparklesCore } from "@/components/ui/sparkles"
+import Logo3D from '@/components/common/Logo3D'
 
 const HomePage = () => {
   return (
     <div className="h-[40rem] w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
-      {/* <img src={Logo} alt="Logo" className="h-20 w-auto z-20" /> */}
       <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center text-white relative z-20">
         InsightBase
       </h1>
@@ -32,12 +32,10 @@ const HomePage = () => {
         />
 
         {/* Radial Gradient to prevent sharp edges */}
-        {/* <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div> */}
         <div className="absolute inset-0 w-full h-full pointer-events-none
             [mask-image:radial-gradient(600px_250px_at_center,white_20%,transparent_70%)]
             [webkit-mask-image:radial-gradient(600px_250px_at_center,white_20%,transparent_70%)]
             " />
-
       </div>
     </div>
   )

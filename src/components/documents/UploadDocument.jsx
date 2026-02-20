@@ -65,9 +65,6 @@ const UploadDocument = () => {
                     IsPublic: formData.isPublic,
                 }
             }))
-
-
-            alert("Dosya yükleme isteği gönderildi.")
         } catch (error) {
             console.log("Upload document failed", error)
         }

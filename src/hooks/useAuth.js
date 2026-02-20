@@ -16,8 +16,8 @@ export const useAuth = () => {
     error,
 
     // Actions
-    register: (data) => dispatch(registerUser(data)),
-    login: (data) => { dispatch(loginUser(data)); },
+    register: (data) => dispatch(registerUser(data).unwrap()),
+    login: (data) => { dispatch(loginUser(data)).unwrap(); },
     me: () => dispatch(fetchMe()),
     logout: () => dispatch(logoutUser()),
     clearError: () => dispatch(clearError()),

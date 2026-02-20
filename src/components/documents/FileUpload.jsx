@@ -58,8 +58,6 @@ const FileUpload = ({ onFileSelect }) => {
   return (
     <div className="pt-4"> 
       <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10">
-       {/* <h2 className="text-xl font-semibold text-white mb-4">Doküman Yükleme</h2>
-        <p className="text-white/60 mb-6">Dokümanlarınızı yükleyin. Sistem otomatik olarak chunk'lara ayırır ve embedding oluşturur.</p> */}
         
         <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-white/20 rounded-2xl cursor-pointer hover:bg-white/5 transition-all">
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
