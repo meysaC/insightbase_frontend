@@ -1,11 +1,11 @@
 import React from 'react'
 import { MenuItem, MenuContainer } from "@/components/ui/fluid-menu"
-import { Menu as MenuIcon, X, Mail, Settings, UserRound, LogOut } from "lucide-react" //Home,
+import { Menu as MenuIcon, X, Settings, UserRound, LogOut } from "lucide-react" //Home,
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 
 export function Navigation() {
-  const { logout } = useAuth(); //isAuthenticated, 
+  const { isAuthenticated, logout } = useAuth(); //
   const navigate = useNavigate();
   
   const handleLogout = async (e) => {
@@ -14,12 +14,14 @@ export function Navigation() {
     navigate('/');
   }
 
-  const data = 
-   [
+  const data = isAuthenticated
+  ? [
       {icon: <UserRound size={16} /> , href: '/users'},
       {icon: <Settings size={16} /> , href: '/settings'},
       {icon: <LogOut size={16} /> , href: '/logout', onClick: handleLogout},
-  ]
+  ] : [
+      {icon: <Settings size={16} /> , href: '/contact'},
+    ]
   return (
     <div className="flex flex-col items-center">
       <div className="relative">
@@ -41,10 +43,8 @@ export function Navigation() {
           {data.map((item, idx) => (
             <React.Fragment key={idx}>
               {item.onClick ? (
-                // Logout için custom handler
                   <MenuItem icon={item.icon}  onClick={handleLogout}/>
               ) : (
-                // Normal link
                 <Link to={item.href}>
                   <MenuItem icon={item.icon} />
                 </Link>

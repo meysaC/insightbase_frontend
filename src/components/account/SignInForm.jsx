@@ -24,7 +24,7 @@ export const SignInForm = ({ onSuccess }) => {
     const data = Object.fromEntries(formData.entries());
 
     try {
-     await login(data);
+      await login(data);
     } catch (error) {console.error("Login failed:", error);}
   };
 

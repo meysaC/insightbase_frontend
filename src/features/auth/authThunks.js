@@ -34,11 +34,11 @@ export const fetchMe = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     "auth/login",
-    async (data, {rejectWithValue}) => {
+     async (data, {rejectWithValue}) => {
         try {
             const loginRes = await authService.login(data);
             setAccessToken(loginRes.data.token);
-            
+
             const meRes = await authService.me();
             return { user: meRes.data };
         } catch (error) {
@@ -80,7 +80,7 @@ export const bootstrapAuth = createAsyncThunk(
             // 2. kullanıcı bilgilerini çek
             const meResponse = await authService.me();
             return { user: meResponse.data };
-        } catch (error) {
+        } catch {
             clearAccessToken();
             return rejectWithValue(null);
         }
