@@ -10,8 +10,12 @@ export function Navigation() {
   
   const handleLogout = async (e) => {
     e.preventDefault();
-    await logout();
-    navigate('/');
+    const confirmed = window.confirm("Çıkış yapmak istediğinize emin misiniz?")
+    if(confirmed)
+    {
+      await logout();
+      navigate('/');
+    }
   }
 
   const data = isAuthenticated

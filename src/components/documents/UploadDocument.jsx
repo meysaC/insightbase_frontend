@@ -14,6 +14,7 @@ import { Dialog,
  import { addDocument } from "@/features/documents/documentSlice"
 import { FilePlus } from "lucide-react"
 import FileUpload from '@/components/documents/FileUpload';
+import { Checkbox } from '@/components/ui/checkbox';
 
 
 const UploadDocument = () => {
@@ -21,7 +22,6 @@ const UploadDocument = () => {
     const [ selectedFiles, setSelectedFiles ] = useState([])
 
     const handleFileSelect = (files) => {
-        console.log("Child'dan gelen files:", files)
         setSelectedFiles(files)
     }
 
@@ -44,7 +44,7 @@ const UploadDocument = () => {
         e.preventDefault()
 
         if(selectedFiles.length === 0 ) {
-            console.error("Lütfen bir dosya seçin.")
+            window.alert("Lütfen bir dosya seçin.")
             return
         }
 
@@ -102,14 +102,14 @@ const UploadDocument = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <input
-                        type="checkbox"
+                    <Label htmlFor="isPublic">Herkese Açık</Label>
+                    <Checkbox 
                         id="isPublic"
                         name="isPublic"
                         checked={formData.isPublic}
-                        onChange={handleChange}
-                        />
-                    <Label htmlFor="isPublic">Herkese Açık</Label>
+                        // onChange={handleChange}
+                        onChange={(checked) => handleChange({target: {name: "isPublic", value: checked}})}
+                    />
                 </div>
 
                 <DialogFooter>

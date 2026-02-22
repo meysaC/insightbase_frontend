@@ -10,9 +10,11 @@ import { Dialog,
         Input,
         Label,
  } from "@/components/ui/dialog-1"
- import { useDispatch } from 'react-redux'
- import { updateDocument } from "@/features/documents/documentSlice"
- import { Pencil } from "lucide-react"
+import { useDispatch } from 'react-redux'
+import { updateDocument } from "@/features/documents/documentSlice"
+import { Pencil } from "lucide-react"
+import { formatDateTR } from '@/utils/date';
+import { Checkbox } from '@/components/ui/checkbox';
 
 // document propu alıyoruz,
 const UpdateDocument = ({ document }) => {
@@ -22,8 +24,12 @@ const UpdateDocument = ({ document }) => {
   const [formData, setFormData] = useState({
     id: document?.id || "",
     userFileName: document?.userFileName || "",
-    documentType: document?.documentType || "",
-    legalArea: document?.legalArea || "",
+    documentType: document?.documentType == "undefined" || "" || null 
+                                          ? "Belirtilmemiş" 
+                                          : document?.documentType,
+    legalArea: document?.legalArea == "undefined" || "" || null 
+                                    ? "Belirtilmemiş" 
+                                    : document?.legalArea,
     createdAt: document?.createdAt || "",
     updatedAt: document?.updatedAt || "",
     isPublic: document?.isPublic || false,
@@ -62,7 +68,7 @@ const UpdateDocument = ({ document }) => {
             <DialogDescription>
               {document?.fileName} dosya üzerinde değişiklik yapabilirsiniz.
             </DialogDescription>
-          </DialogHeader>
+          </DialogHeader>--
 
           <form onSubmit={handleSubmit} className='space-y-4'> 
             <div>
@@ -75,7 +81,7 @@ const UpdateDocument = ({ document }) => {
                   />
             </div>
             <div>
-              <Label className="documentType pb-2">documentType</Label>
+              <Label className="documentType pb-2">Döküman Tipi</Label>
               <Input 
                   id="documentType"
                   name="documentType"
@@ -84,7 +90,7 @@ const UpdateDocument = ({ document }) => {
                   />
             </div>
             <div>
-              <Label className="legalArea pb-2">legalArea</Label>
+              <Label className="legalArea pb-2">Hukuk Alanı</Label>
               <Input 
                   id="legalArea"
                   name="legalArea"
@@ -92,33 +98,37 @@ const UpdateDocument = ({ document }) => {
                   onChange={handlechange}
                   />
             </div>
-            <div>
-              <Label className="createdAt pb-2">Created At</Label>
-              <Input 
-                  id="createdAt"
-                  name="createdAt"
-                  value={formData.createdAt}
-                  onChange={handlechange}
-                  />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="createdAt pb-2">Oluşturulma Tarihi</Label>
+                <Input 
+                    id="createdAt"
+                    name="createdAt"
+                    value={formatDateTR(formData.createdAt)}
+                    disabled
+                    />
+              </div>
+              <div>
+                <Label className="legalArea pb-2">Güncellenme Tarihi</Label>
+                <Input 
+                    id="updatedAt"
+                    name="updatedAt"
+                    value={formatDateTR(formData.updatedAt)}
+                    disabled
+                    />
+              </div>
             </div>
-            <div>
-              <Label className="legalArea pb-2">updatedAt</Label>
-              <Input 
-                  id="updatedAt"
-                  name="updatedAt"
-                  value={formData.updatedAt}
-                  onChange={handlechange}
-                  />
-            </div>
-            <div className="flex items-center gap-2">
-              <Input 
-                  type="checkbox"
+            <div className="grid grid-cols-2">
+              <div className="flex items-center gap-2">
+                <Label className="isPublic">Herkese açık mı?</Label>
+                <Checkbox 
                   id="isPublic"
-                  name="isPublic"
                   checked={formData.isPublic}
-                  onChange={handlechange}
-                  />
-              <Label className="isPublic pb-2">Gizli mi?</Label>
+                  onCheckedChange={(checked) => 
+                    setFormData({...formData, isPublic: checked})
+                  }
+                />
+              </div>
             </div>
 
             <DialogFooter>
@@ -131,5 +141,4 @@ const UpdateDocument = ({ document }) => {
 
   )
 }
-
 export default UpdateDocument

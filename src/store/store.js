@@ -10,6 +10,6 @@ export const store = configureStore({
     }
 });
 
-store.dispatch(bootstrapAuth()); //
+store.dispatch(bootstrapAuth());
 
 export default store;

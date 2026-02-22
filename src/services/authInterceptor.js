@@ -43,7 +43,7 @@ export const setupAuthInterceptor = () => {
       return res;
     },
     async (err) => {
-      const originalRequest = err.config;
+      const originalRequest = err.config || {};
       
       // refresh token endpointinde hata varsa direkt reddet
       if (originalRequest.url.includes("auth/refresh-token"))

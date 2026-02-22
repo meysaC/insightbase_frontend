@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { ChevronUp, ChevronDown, Search, Filter } from "lucide-react";
+import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Search, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function DataTable(
@@ -282,18 +282,18 @@ export function DataTable(
       {/* Pagination */}
       {showPagination && totalPages > 1 && (
         <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-card border-t border-border">
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-2 bg-card border-t border-border rounded-2xl">
           <div className="text-sm text-muted-foreground order-2 sm:order-1">
-            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, sortedData.length)} of{" "}
-            {sortedData.length} results
+            Gösteriliyor {(currentPage - 1) * itemsPerPage + 1} dan{" "}
+            {Math.min(currentPage * itemsPerPage, sortedData.length)} -{" "}
+            {sortedData.length} sonuç
           </div>
           <div className="flex items-center gap-2 order-1 sm:order-2">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="px-3 py-2 text-sm border border-input rounded-2xl hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-              Previous
+              className="px-2 py-2 text-sm border border-input rounded-2xl hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              <ChevronLeft className="h-4 w-4" />
             </button>
             <div className="hidden sm:flex items-center gap-1">
               {Array.from({ length: Math.min(totalPages, 5) }).map((_, i) => {
@@ -311,9 +311,9 @@ export function DataTable(
                     key={pageNumber}
                     onClick={() => setCurrentPage(pageNumber)}
                     className={cn(
-                      "px-3 py-2 text-sm border border-input rounded-2xl hover:bg-muted transition-colors",
+                      "px-2 py-2 text-sm border border-input rounded-2xl hover:bg-muted transition-colors text-muted-foreground",
                       currentPage === pageNumber &&
-                        "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+                        "text-primary-foreground border-primary hover:bg-primary/90 text-muted-foreground"
                     )}>
                     {pageNumber}
                   </button>
@@ -325,8 +325,8 @@ export function DataTable(
                 setCurrentPage((prev) => Math.min(prev + 1, totalPages))
               }
               disabled={currentPage === totalPages}
-              className="px-3 py-2 text-sm border border-input rounded-2xl hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-              Next
+              className="px-2 py-2 text-sm border border-input rounded-2xl hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         </div>
